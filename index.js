@@ -22,7 +22,7 @@ const path = require('path');
 app.use(express.json());
 
 const corsOptions = {
-    origin: 'https://your-frontend-domain.com', // Frontend domeningizni kiriting
+    origin: 'https://60-maktabsinfimiz2.netlify.app', // Frontend domeningizni kiriting
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Ruxsat berilgan metodlar
     allowedHeaders: ['Content-Type', 'Authorization'], // Kerakli sarlavhalar
     credentials: true, // Agar cookie yoki credentials'ga ruxsat berishni xohlasangiz
