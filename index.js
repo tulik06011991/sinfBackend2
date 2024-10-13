@@ -21,13 +21,15 @@ const path = require('path');
 app.use(express.json());
 
 // Ruxsat etilgan domenlar ro'yxati
-const cors = require('cors');
-app.use(cors({
-  origin: 'https://60-maktabsinfimizlar.netlify.app',  // Yoki barcha domenlar uchun '*'
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*'); // Hammaga ruxsat berish
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // X headers
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Kerakli HTTP metodlarga ruxsat berish
+    next();
+});
 
+// Express.js da to'g'ridan-to'g'ri CORS middleware'ni ishlatish
+app.use(cors());
 // CORS middleware'ni qo'llash
 // app.use(cors(corsOptions));
 
