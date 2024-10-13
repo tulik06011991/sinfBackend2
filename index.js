@@ -19,6 +19,7 @@ const path = require('path');
 
 
 
+app.use(express.json());
 
 const corsOptions = {
     origin: 'https://your-frontend-domain.com', // Frontend domeningizni kiriting
@@ -31,7 +32,6 @@ const corsOptions = {
 app.options('*', cors(corsOptions)); // OPTIONS so'rovlariga ruxsat berish
 
 
-app.use(express.json());
 app.use(express.static(path.join(__dirname, 'uploads')));
 
 // Routes
