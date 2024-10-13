@@ -116,8 +116,48 @@ const loginController = async (req, res) => {
     }
 };
 
+const getUsers = async (req, res) => {
+    try {
+      const users = await User.find(); // Barcha foydalanuvchilarni olish
+      res.status(200).json(users); // Foydalanuvchilar ro'yxatini qaytarish
+    } catch (error) {
+      res.status(500).json({ message: 'Foydalanuvchilarni olishda xatolik', error: error.message });
+    }
+  };
+  
+  // Foydalanuvchini yaratish
+  const createUser = async (req, res) => {
+    const { name, email, password, role } = req.body; // So'rovdan ma'lumotlarni olish
+  
+    const userExists = await User.findOne({ email }); // Foydalanuvchi mavjudligini tekshirish
+    if (userExists) {
+      return res.status(400).json({ message: 'Bu elektron pochta allaqachon ro\'yxatdan o\'tgan.' });
+    }
+  
+    try {
+      const newUser = await User.create({ name, email, password, role }); // Yangi foydalanuvchini yaratish
+      res.status(201).json(newUser); // Yaratilgan foydalanuvchini qaytarish
+    } catch (error) {
+      res.status(500).json({ message: 'Foydalanuvchini yaratishda xatolik', error: error.message });
+    }
+  };
+  
+  // Foydalanuvchini o'chirish
+  const deleteUser = async (req, res) => {
+    const { id } = req.params; 
+    console.log(id);
+    // URL parametridan ID ni olish
+    try {
+      const deletedUser = await User.findByIdAndDelete(id); // Foydalanuvchini o'chirish
+      if (!deletedUser) {
+        return res.status(404).json({ message: 'Foydalanuvchi topilmadi.' });
+      }
+      res.status(200).json({ message: 'Foydalanuvchi muvaffaqiyatli o\'chirildi.' }); // O'chirilgan foydalanuvchini qaytarish
+    } catch (error) {
+      res.status(500).json({ message: 'Foydalanuvchini o\'chirishda xatolik', error: error.message });
+    }
+  };
 
 
 
-
-module.exports = { registerController, loginController };
+module.exports = { registerController, loginController, deleteUser };
