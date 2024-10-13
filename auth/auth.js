@@ -160,4 +160,4 @@ const getUsers = async (req, res) => {
 
 
 
-module.exports = { registerController, loginController, deleteUser };
+module.exports = { registerController, loginController, getUsers, deleteUser };
