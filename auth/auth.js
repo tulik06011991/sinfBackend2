@@ -116,6 +116,11 @@ const loginController = async (req, res) => {
     }
 };
 
+ // User modelini import qilish
+
+// Foydalanuvchilarni olish
+
+
 const getUsers = async (req, res) => {
     try {
       const users = await User.find(); // Barcha foydalanuvchilarni olish
