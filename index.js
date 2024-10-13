@@ -28,7 +28,8 @@ const corsOptions = {
 };
 
 // CORS'ni barcha marshrutlar uchun qo'llash
-app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // OPTIONS so'rovlariga ruxsat berish
+
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'uploads')));
