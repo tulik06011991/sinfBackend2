@@ -20,18 +20,15 @@ const path = require('path');
 
 
 
-app.use(cors({
-    origin: 'https://60-maktabsinfimiz2.netlify.app', // Frontend domeni yoki porti
-    credentials: true,
-}));
+const corsOptions = {
+    origin: 'https://your-frontend-domain.com', // Frontend domeningizni kiriting
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Ruxsat berilgan metodlar
+    allowedHeaders: ['Content-Type', 'Authorization'], // Kerakli sarlavhalar
+    credentials: true, // Agar cookie yoki credentials'ga ruxsat berishni xohlasangiz
+};
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://60-maktabsinfimiz2.netlify.app");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    next();
-  });
-  
+// CORS'ni barcha marshrutlar uchun qo'llash
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'uploads')));
