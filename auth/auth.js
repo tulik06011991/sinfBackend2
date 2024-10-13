@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 ; // User modelini import qilamiz (agar foydalanuvchilar uchun kerak bo'lsa)
 
 // Register Controller
-const User = require('../models/User'); // User modelini import qilish
+ // User modelini import qilish
 
 const registerController = async (req, res) => {
     const { name, email, password, role } = req.body;
