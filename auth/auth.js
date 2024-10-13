@@ -7,29 +7,45 @@ const jwt = require('jsonwebtoken');
 ; // User modelini import qilamiz (agar foydalanuvchilar uchun kerak bo'lsa)
 
 // Register Controller
+const User = require('../models/User'); // User modelini import qilish
+
 const registerController = async (req, res) => {
     const { name, email, password, role } = req.body;
 
     try {
+        // Foydalanuvchi mavjudligini tekshirish
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: 'Bu email bilan foydalanuvchi mavjud!' });
         }
 
-        const user = new User({
+        // Yangi foydalanuvchi obyektini yaratish
+        const newUser = new User({
             name,
             email,
             password,
             role // Admin yoki user
         });
 
-        await user.save();
+        // Yangi foydalanuvchini saqlash
+        await newUser.save();
+
+        // CORS headerini qo'shish
+        res.setHeader('Access-Control-Allow-Origin', 'https://60-maktabsinfimiz2.netlify.app');
+
+        // Muvaffaqiyatli ro'yxatdan o'tgan xabarini qaytarish
         res.status(201).json({ message: 'Foydalanuvchi muvaffaqiyatli ro\'yxatdan o\'tdi!' });
     } catch (error) {
+        // Xatolik bo'lsa, uni konsolega chiqarish
         console.error(error);
+        // Xatolikni frontendga qaytarish
         res.status(500).json({ message: 'Serverda xato yuz berdi!' });
     }
 };
+
+module.exports = registerController; // Funktsiyani eksport qilish
+
+
 
 const loginController = async (req, res) => {
     const { email, password } = req.body;
@@ -49,7 +65,9 @@ const loginController = async (req, res) => {
             // Barcha fanlar va foydalanuvchilarga kirish huquqiga ega bo'lgan eng yuqori admin
             const allSubjects = await Subject.find({}).select('_id name'); // Barcha fanlar
           
-
+            // CORS headerini qo'shish
+            res.setHeader('Access-Control-Allow-Origin', 'https://60-maktabsinfimiz2.netlify.app');
+            
             // JWT token yaratish (eng yuqori admin uchun)
             const token = jwt.sign({ userId: admin._id, role: 'superadmin' }, process.env.JWT_SECRET, { expiresIn: '5h' });
 
@@ -71,11 +89,13 @@ const loginController = async (req, res) => {
             // Adminning o'ziga tegishli fanlar ro'yxatini olish
             const subjects = await Subject.find({ adminId: admin._id }).select('_id name');
           
-
             // Agar fanlar topilmasa, xabar yuborish
             if (subjects.length === 0) {
                 return res.status(404).json({ message: 'Bu admin uchun fanlar topilmadi!' });
             }
+
+            // CORS headerini qo'shish
+            res.setHeader('Access-Control-Allow-Origin', 'https://60-maktabsinfimiz2.netlify.app');
 
             // JWT token yaratish
             const token = jwt.sign({ userId: admin._id, role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -100,14 +120,16 @@ const loginController = async (req, res) => {
             return res.status(400).json({ message: 'Noto\'g\'ri parol!' });
         }
 
+        // CORS headerini qo'shish
+        res.setHeader('Access-Control-Allow-Origin', 'https://60-maktabsinfimiz2.netlify.app');
+
         // JWT token yaratish foydalanuvchi uchun
-        const token = jwt.sign({ userId: user._id,  userName: user.name,   role: 'user' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id, userName: user.name, role: 'user' }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         // Agar foydalanuvchi admin emas bo'lsa savollar-javoblar sahifasiga yo'naltirish
         return res.status(200).json({ 
             token, 
             redirect: '/savollarjavoblar',
-           
         });
 
     } catch (error) {
@@ -115,6 +137,9 @@ const loginController = async (req, res) => {
         return res.status(500).json({ message: 'Serverda xato yuz berdi!' });
     }
 };
+
+module.exports = loginController; // Funksiyani eksport qilish
+
 
  // User modelini import qilish
 
