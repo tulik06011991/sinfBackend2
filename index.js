@@ -23,8 +23,7 @@ app.use(express.json());
 
 const corsOptions = {
     origin: 'https://60-maktabsinfimiz2.netlify.app', // Frontend domeningizni kiriting
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Ruxsat berilgan metodlar
-    allowedHeaders: ['Content-Type', 'Authorization'], // Kerakli sarlavhalar
+     // Kerakli sarlavhalar
     credentials: true, // Agar cookie yoki credentials'ga ruxsat berishni xohlasangiz
 };
 
@@ -65,3 +64,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+// https://sinfbackend5.onrender.com
