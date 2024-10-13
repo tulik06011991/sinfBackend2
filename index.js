@@ -21,7 +21,7 @@ const path = require('path');
 
 
 app.use(cors({
-    origin: 'https://60-maktabsinfimiz.netlify.app', // Frontend domeni yoki porti
+    origin: 'https://60-maktabsinfimiz2.netlify.app', // Frontend domeni yoki porti
     credentials: true,
 }));
 
