@@ -4,10 +4,8 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const questionRoutes = require('./routes/faylYuklashRoute');
 const quizRoutes = require('./routes/savollar');
-const admin = require('./routes/adminlar')
-const admins = require('./routes/adminlar') 
-const adminPut = require('./routes/adminlar') 
-const adminDel = require('./routes/adminlar') 
+const adminRoutes = require('./routes/adminlar')
+
 const fanlar2 = require('./routes/fanlar2')
 const fanOlish = require('./routes/fanlarOlish')
 const auth  = require('./routes/auth')
@@ -19,33 +17,32 @@ const path = require('path');
 
 
 
+
 app.use(express.json());
 
-const corsOptions = {
-    origin: 'https://60-maktabsinfimiz2.netlify.app', // Frontend domeningizni kiriting
-     // Kerakli sarlavhalar
-    credentials: true, // Agar cookie yoki credentials'ga ruxsat berishni xohlasangiz
-};
+// Ruxsat etilgan domenlar ro'yxati
+app.use(cors({
+    origin: 'https://60-maktabsinfimiz2.netlify.app', // Frontend domeni yoki porti
+    credentials: true,
+  }));
 
-// CORS'ni barcha marshrutlar uchun qo'llash
-app.options('*', cors(corsOptions)); // OPTIONS so'rovlariga ruxsat berish
-
+// CORS middleware'ni qo'llash
+// app.use(cors(corsOptions));
 
 app.use(express.static(path.join(__dirname, 'uploads')));
 
+
 // Routes
-app.use('/api', questionRoutes)
-app.use('/api', quizRoutes);
-app.use('/api',  admin);
-app.use('/api',  admins)
-app.use('/api',  adminPut)
-app.use('/api',  adminDel)
-app.use('/api', fanlar2)
-app.use('/api', fanOlish)
-app.use('/api', auth)
-app.use('/api', javob)
-app.use('/admin', adminFan)
-app.use('/admin', hammasi)
+app.use('/api',  questionRoutes)
+app.use('/api',  quizRoutes);
+app.use('/api',  adminRoutes);
+
+app.use('/api',  fanlar2)
+app.use('/api',  fanOlish)
+app.use('/api',  auth)
+app.use('/api',  javob)
+app.use('/admin',  adminFan)
+app.use('/admin',  hammasi)
 // MongoDB ga ulanish
 const connectDB = async () => {
     try {
@@ -65,4 +62,4 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
-// https://sinfbackend5.onrender.com
+
