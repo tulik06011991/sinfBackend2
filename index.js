@@ -21,10 +21,12 @@ const path = require('path');
 app.use(express.json());
 
 // Ruxsat etilgan domenlar ro'yxati
+const cors = require('cors');
 app.use(cors({
-    origin: 'https://60-maktabsinfimiz2.netlify.app', // Frontend domeni yoki porti
-    credentials: true,
-  }));
+  origin: 'https://60-maktabsinfimizlar.netlify.app',  // Yoki barcha domenlar uchun '*'
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // CORS middleware'ni qo'llash
 // app.use(cors(corsOptions));
